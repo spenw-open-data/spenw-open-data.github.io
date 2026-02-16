@@ -5,12 +5,15 @@
 </head>
 
 <body>
-	<div id='myDiv'><!-- Plotly chart will be drawn inside this DIV --></div>
-	<a href="https://raw.githubusercontent.com/spenw-open-data/spenw-open-data.github.io/refs/heads/main/414081.csv">Download Data</a>
+	<div id='graph'><!-- Plotly chart will be drawn inside this DIV --></div>
+	<div id='downloadLink'></div>
 	
 	<script>
 let params = new URLSearchParams(document.location.search);
 let subnum = params.get("subnum"); 
+
+document.getElementById('downloadLink').innerHTML = "<a href='https://raw.githubusercontent.com/spenw-open-data/spenw-open-data.github.io/refs/heads/main/" + subnum + ".csv'>Download Data</a>"
+
 d3.csv("https://raw.githubusercontent.com/spenw-open-data/spenw-open-data.github.io/refs/heads/main/" + subnum + ".csv", function(err, rows){
 
   function unpack(rows, key) {
@@ -18,10 +21,11 @@ d3.csv("https://raw.githubusercontent.com/spenw-open-data/spenw-open-data.github
 }
 
 
+
 var trace1 = {
   type: "scatter",
   mode: "lines",
-  name: 'Apparent Power',
+  name: 'Apparent Power (VA)',
   x: unpack(rows, 'time'),
   y: unpack(rows, 'apparent_power'),
   line: {color: '#17BECF'}
@@ -30,7 +34,7 @@ var trace1 = {
 var trace2 = {
   type: "scatter",
   mode: "lines",
-  name: 'Real Power',
+  name: 'Real Power (W)',
   x: unpack(rows, 'time'),
   y: unpack(rows, 'real_power'),
   line: {color: '#7F7F7F'}
@@ -44,7 +48,7 @@ var layout = {
   },
 };
 
-Plotly.newPlot('myDiv', data, layout, {scrollZoom: true});
+Plotly.newPlot('graph', data, layout, {scrollZoom: true});
 })
 
 	</script>
