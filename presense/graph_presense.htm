@@ -6,9 +6,11 @@
 
 <body>
 	<div id='myDiv'><!-- Plotly chart will be drawn inside this DIV --></div>
+	<a href="https://raw.githubusercontent.com/spenw-open-data/spenw-open-data.github.io/refs/heads/main/presense/414081.csv">Download Data</a>
 	
 	<script>
-d3.csv("https://raw.githubusercontent.com/spenw-open-data/spenw-open-data.github.io/refs/heads/main/414081.csv", function(err, rows){
+const subnum = new URLSearchParams(subnum)
+d3.csv("https://raw.githubusercontent.com/spenw-open-data/spenw-open-data.github.io/refs/heads/main/presense/" + subnum + ".csv", function(err, rows){
 
   function unpack(rows, key) {
   return rows.map(function(row) { return row[key]; });
@@ -37,7 +39,7 @@ var data = [trace1,trace2];
 
 var layout = {
   title: {
-    text: '414081'
+    text: subnum
   },
 };
 
