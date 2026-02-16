@@ -9,7 +9,8 @@
 	<a href="https://raw.githubusercontent.com/spenw-open-data/spenw-open-data.github.io/refs/heads/main/414081.csv">Download Data</a>
 	
 	<script>
-const subnum = new URLSearchParams(subnum)
+let params = new URLSearchParams(document.location.search);
+let subnum = params.get("subnum"); 
 d3.csv("https://raw.githubusercontent.com/spenw-open-data/spenw-open-data.github.io/refs/heads/main/" + subnum + ".csv", function(err, rows){
 
   function unpack(rows, key) {
