@@ -46,6 +46,9 @@ var layout = {
   title: {
     text: 'Substation Loading (Substation: ' + subnum + ')'
   },
+  yaxis: {
+	fixedrange: true
+	},
 };
 
 Plotly.newPlot('graph', data, layout, {scrollZoom: true});
