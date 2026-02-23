@@ -1,0 +1,134 @@
+<head>
+	<!-- Load plotly.js into the DOM -->
+	<script src='https://cdn.plot.ly/plotly-3.3.0.min.js'></script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js'></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+	<style>
+		a.button, input.button {
+                  background-color: #00a443;
+                  color: white;
+                  padding: 5px 20px;
+                  text-align: center;
+                  text-decoration: none;
+                  display: inline-block;
+                }
+	</style>
+</head>
+
+<body>
+	<div style="max-height:500px">
+		<div id='graph' class='graph'><!-- Plotly chart will be drawn inside this DIV --></div>
+	</div>
+	<div><a id='downloadLink' class='button'>Download Link</a></div>
+	
+	<script>
+		//Obtain URL parameters
+		let params = new URLSearchParams(document.location.search);
+		let subnum = params.get("subnum"); 
+		let feeder = params.get("feeder"); 
+
+		//Generate CSV file from data
+		function downloadString(text, fileType, fileName) {
+		  var blob = new Blob([text], { type: fileType });
+
+		  var a = document.createElement('a');
+		  a.download = fileName;
+		  a.href = URL.createObjectURL(blob);
+		  a.dataset.downloadurl = [fileType, a.download, a.href].join(':');
+		  a.style.display = "none";
+		  document.body.appendChild(a);
+		  a.click();
+		  document.body.removeChild(a);
+		  setTimeout(function() { URL.revokeObjectURL(a.href); }, 1500);
+		}
+
+		//Load CSV data from zip file
+		async function loadCsvFromZip(zipUrl, targetCsv) {
+			// Fetch the ZIP file as an ArrayBuffer
+			const response = await fetch(zipUrl);
+			const arrayBuffer = await response.arrayBuffer();
+
+			// Load ZIP using JSZip
+			const zip = await JSZip.loadAsync(arrayBuffer);
+
+			// Ensure the CSV exists
+			if (!zip.files[targetCsv]) {
+				console.error(`File ${targetCsv} not found inside ZIP`);
+				return;
+			}
+
+			// Extract CSV text
+			const csvText = await zip.files[targetCsv].async("text");
+
+			return csvText;
+		}
+
+		//Main function to draw graph
+		async function draw_graph() {
+			//Load data
+			let csv_data =  await loadCsvFromZip(
+				"https://raw.githubusercontent.com/spenw-open-data/spenw-open-data.github.io/refs/heads/main/lv-visibility/data/" + feeder + ".zip",
+				subnum + ".csv"
+			);
+			
+			//Set download link
+			document.getElementById('downloadLink').onclick = function() {downloadString(csv_data, 'text/csv', subnum + '.csv');};
+			document.getElementById('downloadLink').innerHTML = 'Download data';
+
+			//Parse CSV string
+			const data = d3.csv.parseRows(csv_data, (d, i) => {
+				return {
+					time: new Date(d[0]),
+					apparent_power: +d[1],
+					real_power: +d[2]
+				};
+			});
+			
+			//Utility unpack function
+			function unpack(data, columnName) {
+				return data.map(function(row) { return row[columnName]; });
+			}
+			
+			//Generate Plotly data
+			var apparent_power = {
+			  type: "scatter",
+			  mode: "lines",
+			  name: 'Apparent Power (VA)',
+			  x: unpack(data, 'time'),
+			  y: unpack(data, 'apparent_power'),
+			  line: {color: '#17BECF'}
+			}
+
+			var real_power = {
+			  type: "scatter",
+			  mode: "lines",
+			  name: 'Real Power (W)',
+			  x: unpack(data, 'time'),
+			  y: unpack(data, 'real_power'),
+			  line: {color: '#7F7F7F'}
+			}
+
+			var graph_data = [apparent_power,real_power];
+
+
+			var layout = {
+			  title: {
+				text: 'Substation Loading (Substation: ' + subnum + ')'
+			  },
+			  yaxis: {
+				fixedrange: true
+				},
+			};
+
+			//Draw graph
+			Plotly.newPlot('graph', graph_data, layout, {scrollZoom: true});
+		};
+
+		//Trigger graph draw
+		draw_graph();
+
+
+
+	</script>
+</body>
