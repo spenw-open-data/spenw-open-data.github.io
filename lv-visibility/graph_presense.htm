@@ -81,7 +81,8 @@
 				return {
 					time: new Date(d[0]),
 					apparent_power: +d[1],
-					real_power: +d[2]
+					real_power: +d[2],
+					reactive_power: +d[3]
 				};
 			});
 			
@@ -97,7 +98,7 @@
 			  name: 'Apparent Power (VA)',
 			  x: unpack(data, 'time'),
 			  y: unpack(data, 'apparent_power'),
-			  line: {color: '#17BECF'}
+			  line: {color: '#00A443'}
 			}
 
 			var real_power = {
@@ -106,13 +107,23 @@
 			  name: 'Real Power (W)',
 			  x: unpack(data, 'time'),
 			  y: unpack(data, 'real_power'),
-			  line: {color: '#7F7F7F'}
+			  line: {color: '#FF9C1A'}
+			}
+			
+			var reactive_power = {
+			  type: "scatter",
+			  mode: "lines",
+			  name: 'Reactive Power (VAr)',
+			  x: unpack(data, 'time'),
+			  y: unpack(data, 'reactive_power'),
+			  line: {color: '#0DA9FF'}
 			}
 
-			var graph_data = [apparent_power,real_power];
+			var graph_data = [apparent_power,real_power,reactive_power];
 
 
 			var layout = {
+			  height: 500,
 			  title: {
 				text: 'Substation Loading (Substation: ' + subnum + ')'
 			  },
