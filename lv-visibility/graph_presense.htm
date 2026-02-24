@@ -27,7 +27,7 @@
 		let params = new URLSearchParams(document.location.search);
 		let subnum = params.get("subnum"); 
 		let feeder = params.get("feeder"); 
-
+		
 		//Generate CSV file from data
 		function downloadString(text, fileType, fileName) {
 		  var blob = new Blob([text], { type: fileType });
@@ -55,6 +55,7 @@
 			// Ensure the CSV exists
 			if (!zip.files[targetCsv]) {
 				console.error(`File ${targetCsv} not found inside ZIP`);
+				document.getElementById('graph').innerHTML = `<p>Couldn't find substation data: ${targetCsv}</p>`
 				return;
 			}
 
@@ -135,9 +136,16 @@
 			//Draw graph
 			Plotly.newPlot('graph', graph_data, layout, {scrollZoom: true});
 		};
-
-		//Trigger graph draw
-		draw_graph();
+		
+		if (subnum == null || feeder == null)
+		{
+			document.getElementById('graph').innerHTML = `<p>No feeder or substation specified. Please set the 'feeder' and 'subnum' parameters in the URL.</p>`;
+		}
+		else
+		{
+			//Trigger graph draw
+			draw_graph();
+		}
 
 
 
