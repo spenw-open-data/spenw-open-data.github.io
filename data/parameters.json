@@ -1,0 +1,28 @@
+[
+	{ "key": "carbon-savings", "title": "Carbon savings (tCO2e)", "combine": "sum", "units":"tCO2e", "dp": 0, "description": "A description goes here" },
+
+	{ "key": "demand-total", "optgroup": "Energy demand", "title": "Total (MWh)", "combine": "sum", "units":"MWh", "dp": 0, "description": "A description goes here" },
+	{ "key": "demand-max", "optgroup": "Energy demand", "title": "Maximum demand (MVA)", "combine": "sum", "units":"MVA", "dp": 0, "description": "A description goes here" },
+	{ "key": "demand-min", "optgroup": "Energy demand", "title": "Minimum demand (MVA)", "combine": "sum", "units":"MVA", "dp": 0, "description": "A description goes here" },
+	{ "key": "demand-domestic", "optgroup": "Energy demand", "title": "Domestic (MWh)", "combine": "sum", "units":"MWh", "dp": 0, "description": "A description goes here" },
+	{ "key": "demand-non-domestic", "optgroup": "Energy demand", "title": "Non-domestic (MWh)", "combine": "sum", "units":"MWh", "dp": 0, "description": "A description goes here" },
+	{ "key": "demand-ev", "optgroup": "Energy demand", "title": "Electric vehicles (MWh)", "combine": "sum", "units":"MWh", "dp": 0, "description": "A description goes here" },
+	{ "key": "demand-heatpumps", "optgroup": "Energy demand", "title": "Heat pumps (MWh)", "combine": "sum", "units":"MWh", "dp": 0, "description": "A description goes here" },
+	{ "key": "demand-district-heating-domestic", "optgroup": "Energy demand", "title": "District heating - domestic (MWh)", "combine": "sum", "units":"MWh", "dp": 0, "description": "A description goes here" },
+	{ "key": "demand-district-heating-non-domestic", "optgroup": "Energy demand", "title": "District heating - non-domestic (MWh)", "combine": "sum", "units":"MWh", "dp": 0, "description": "A description goes here" },
+
+	{ "key": "generation-pv", "optgroup": "Generation", "title": "PV (MWh)", "combine": "sum", "units":"MWh", "dp": 0, "description": "A description goes here" },
+	{ "key": "generation-wind", "optgroup": "Generation", "title": "Wind (MWh)", "combine": "sum", "units":"MWh", "dp": 0, "description": "A description goes here" },
+
+	{ "key": "flexibility-service-req", "optgroup": "Flexibility", "title": "Service requirements (MW)", "combine": "sum", "units":"MW", "dp": 0, "description": "A description goes here" },
+	{ "key": "flexibility-service-req-max", "optgroup": "Flexibility", "title": "Maximum service requirements (MW)", "combine": "sum", "units":"MW", "dp": 0, "description": "A description goes here" },
+
+	{ "key": "installed-battery-storage", "optgroup": "Installed capacity", "title": "Battery storage (MW)", "combine": "sum", "units":"MW", "dp": 0, "description": "A description goes here" },
+	{ "key": "installed-generation", "optgroup": "Installed capacity", "title": "Generation (MW)", "combine": "sum", "units":"MW", "dp": 0, "description": "A description goes here" },
+	{ "key": "installed-pv", "optgroup": "Installed capacity", "title": "PV (MWh)", "combine": "sum", "units":"MWh", "dp": 0, "description": "A description goes here" },
+	{ "key": "installed-wind", "optgroup": "Installed capacity", "title": "Wind exclusing offshore (MWh)", "combine": "sum", "units":"MWh", "dp": 0, "description": "A description goes here" },
+
+	{ "key": "uptake-ev", "optgroup": "Uptake", "title": "Electric vehicles (number)", "combine": "sum", "units":"", "dp": 0, "description": "Number of registered plug in electric vehicles (pure and hybrid)" },
+	{ "key": "uptake-heatpump-domestic", "optgroup": "Uptake", "title": "Heat pump - domestic (number)", "combine": "sum", "units":"", "dp": 0, "description": "Number of heat pumps (domestic)" },
+	{ "key": "uptake-heatpump-non-domestic", "optgroup": "Uptake", "title": "Heat pump - non-domestic (number)", "combine": "sum", "units":"", "dp": 0, "description": "Number of heat pumps (non-domestic)" }
+]

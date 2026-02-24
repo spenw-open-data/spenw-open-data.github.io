@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+	<title>Electricity North West Future Energy Scenarios 2025</title>
+	<link rel="apple-touch-icon" sizes="180x180" href="resources/apple-touch-icon.webp">
+	<link rel="icon" type="image/png" sizes="32x32" href="resources/favicon-32x32.webp">
+	<link rel="icon" type="image/png" sizes="16x16" href="resources/favicon-16x16.png">
+	<link rel="StyleSheet" href="resources/leaflet.css" type="text/css" />
+	<link rel="StyleSheet" href="resources/style.css" type="text/css" />
+	<script src="resources/typeahead.js"></script>
+	<script src="resources/dfes.js"></script>
+	<script src="resources/config.js"></script>
+	<script src="resources/leaflet.js"></script>
+	<script src="resources/leaflet-pip.js"></script>
+	<script src="resources/Leaflet.PlaceNameLayer.js"></script>
+	<script src="resources/dom-to-image-more.min.js"></script>
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:site" content="@electricitynw" />
+	<meta name="twitter:url" property="og:url" content="https://open-innovations.github.io/ENW-DFES/" />
+	<meta name="twitter:title" property="og:title" content="Electricity North West Future Energy Scenarios 2025" />
+	<meta name="twitter:description" property="og:description" content="Electricity North West's potential future scenarios, a regionalised interpretion of the 2025 National Grid Future Energy Pathways" />
+	<meta name="twitter:image" property="og:image" content="https://open-innovations.github.io/ENW-DFES/screenshot.png" />
+</head>
+<body>
+	
+	<div class="warning tallpadded">
+		<div class="holder">
+		<h2>WARNING</h2>
+		<p>This page is currently <em>under development</em>. It contains placeholder parameters, scenarios, data, and text.<br />The real DFES 2025 data will be included here later.</p>
+		</div>
+	</div>
+
+	<div class="b6-bg" id="scenario">
+		<div class="intro tallpadded scenario best-view">
+			<div class="holder">
+				<h1>Distribution Future Energy Scenarios (DFES) 2025</h1>
+				<p>Electricity North West's potential future scenarios.</p>
+			</div>
+		</div>
+		<div class="columns">
+			<div class="left">
+				<label for="scenarios">Choose a scenario:</label>
+				<div id="scenario-holder">
+					<select id="scenarios"></select>
+				</div>
+				<label for="parameters">Choose a parameter:</label>
+				<div id="parameter-holder">
+					<select id="parameters"></select>
+				</div>
+				<label for="views">View by:</label>
+				<div id="view-holder">
+					<select id="views"></select>
+				</div>
+				<div class="info-bubble warning" data-scale="absolute" style="display:none;"><p>To improve the contrast between areas within your chosen year you may wish to change the colour scale.</p></div>
+
+				<label for="slider">Select year (<span class="year"></span>):</label>
+				<input type="range" id="slider" min="2024" max="2051" step="1" class="scenario" />
+				<div><button id="play" class="scenario" title="Play">&#9658;</button> <button id="pause" class="scenario" title="Pause" disabled>&#10074;&#10074;</button></div>
+				<div class="info-bubble warning" data-scale="relative"><p>To better show changes in values over time you may wish to change the colour scale.</p></div>
+
+				<div id="download">
+					<button class="page-header__branding scenario" id="download-csv"><svg width="1em" height="1em" viewBox="0 0 32 32" fill="currentColor" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M 0 32 l 32 0 l 0 -10 l -4 0 l 0 6 l -24 0 l 0 -6 l -4 0 l 0 10 M 12 5 l 8 0 l 0 10 l 8 0 l -12 12 l -12 -12 l 8 0"></path></svg> Download CSV for this view</button>
+				</div>
+			</div>
+			<div class="right">
+				<div class="message"></div>
+				<div id="screenshot">
+					<div id="map">
+						<div class="spinner" style="display:none;">
+							<i class="icon-loading c-site-search__searching-icon"></i>
+						</div>
+					</div>
+					<div id="scale"></div>
+				</div>
+				<div id="scale-holder" class="toggleinput toggler">
+					<label for="scale-mode">Adjust colour scale to current year?</label>:
+					<div id="scale-holder" class="toggleinput toggler">
+						<span class="toggle-label1" title="To compare the values of different areas for the current year">Yes</span>
+						<div class="toggle-bg">
+							<input type="checkbox" id="scale-mode" name="scale-mode" title="Select for an absolute scale" />
+							<span class="switch"></span>
+						</div>
+						<span class="toggle-label2" title="To compare the values of different areas across the the full range of years">No</span>
+					</div>
+						
+					<div class="info-bubble warning">
+						<p>Select <strong>Yes</strong> and the colour scale will change depending on the year you have selected. This will help improve contrast for each area within your chosen year. Select <strong>No</strong> and the colour scale will stay the same as you move through the years.</p>
+					</div>
+				</div>
+				<div id="issues"><a href="#" onClick="saveDOMImage(document.getElementById('screenshot'));return false;">Save map as PNG</a> | <a href="#data">Get the data</a> | <a href="https://github.com/open-innovations/ENW-DFES/issues/">Report any issues you find</a> with our tool</div>
+			</div>
+		</div>
+	</div>
+<!--
+	<script src="https://open-innovations.org/resources/oi.log.js"></script>
+	<script>
+	OI.log.setup({"id":"enw","target":["open-innovations.github.io","dev.open-innovations.org"]}).add('action=view');
+	</script>
+-->
+</body>
+</html>

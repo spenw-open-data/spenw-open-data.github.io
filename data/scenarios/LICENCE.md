@@ -1,0 +1,1 @@
+Creative Commons By Attribution 4.0
