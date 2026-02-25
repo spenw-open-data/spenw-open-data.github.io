@@ -14,6 +14,7 @@
                   display: inline-block;
                 }
 	</style>
+	<title></title>
 </head>
 
 <body>
@@ -27,6 +28,8 @@
 		let params = new URLSearchParams(document.location.search);
 		let subnum = params.get("subnum"); 
 		let feeder = params.get("feeder"); 
+		
+		document.title = 'Substation Loading (Substation: ' + subnum + ')';
 		
 		//Generate CSV file from data
 		function downloadString(text, fileType, fileName) {
