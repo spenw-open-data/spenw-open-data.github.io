@@ -19,10 +19,13 @@
 
 <body>
 	<div style="max-height:500px">
-		<div id='graph' class='graph'><!-- Plotly chart will be drawn inside this DIV --><p>Data Loading...</p></div>
+		<div id='graph'><!-- Plotly chart will be drawn inside this DIV --><p>Data Loading...</p></div>
 	</div>
-	<div><a id='downloadLink' class='button'>Download Link</a></div>
-	
+	<div><a id='downloadLink' class='button'>Download Timeseries Data</a></div>
+	<div style="max-height:500px">
+		<div id='load-duration'><!-- Plotly chart will be drawn inside this DIV --><p>Data Loading...</p></div>
+	</div>
+	<div><a id='ld_downloadLink' class='button'>Download Load Duration Data</a></div>
 	<script>
 		//Obtain URL parameters
 		let params = new URLSearchParams(document.location.search);
@@ -45,6 +48,36 @@
 		  document.body.removeChild(a);
 		  setTimeout(function() { URL.revokeObjectURL(a.href); }, 1500);
 		}
+
+		//Create CSV string from arrays
+		function toCSV(col1, col2) {
+			let lines = ["percentile,apparent_load_va"]; // header row (optional)
+
+			for (let i = 0; i < col1.length; i++) {
+				lines.push(`${col1[i]},${col2[i]}`);
+			}
+
+			return lines.join("\n");
+		}
+
+
+		function percentile(arr, p) {
+			if (arr.length === 0) return null;
+
+			const sorted = arr.slice().sort((a, b) => a - b);
+			const index = (p / 100) * (sorted.length - 1);
+
+			const lower = Math.floor(index);
+			const upper = Math.ceil(index);
+
+			if (lower === upper) return sorted[lower];
+
+			// Linear interpolation
+			const weight = index - lower;
+			return sorted[lower] * (1 - weight) + sorted[upper] * weight;
+		}
+
+
 
 		//Load CSV data from zip file
 		async function loadCsvFromZip(zipUrl, targetCsv) {
@@ -77,8 +110,7 @@
 			);
 			
 			//Set download link
-			document.getElementById('downloadLink').onclick = function() {downloadString(csv_data, 'text/csv', subnum + '.csv');};
-			document.getElementById('downloadLink').innerHTML = 'Download data';
+			document.getElementById('downloadLink').onclick = function() {downloadString(csv_data, 'text/csv', subnum + '-timeseries.csv');};
 
 			//Parse CSV string
 			const data = d3.csv.parseRows(csv_data, (d, i) => {
@@ -132,12 +164,48 @@
 				text: 'Substation Loading (Substation: ' + subnum + ')'
 			  },
 			  yaxis: {
-				fixedrange: true
+				fixedrange: true,
+				spikemode: 'across',
 				},
 			};
 
 			//Draw graph
 			Plotly.newPlot('graph', graph_data, layout, {scrollZoom: true});
+			
+			var percentiles = [10,25,50,75,90];
+			var apparent_power_data = unpack(data, 'apparent_power');
+			var load_duration_data = [percentile(apparent_power_data,10),percentile(apparent_power_data,25),percentile(apparent_power_data,50),percentile(apparent_power_data,75),percentile(apparent_power_data,90)];
+			
+			//Set download link
+			document.getElementById('ld_downloadLink').onclick = function() {downloadString(toCSV(percentiles,load_duration_data), 'text/csv', subnum + '-loadduration.csv');};
+			
+			var load_duration = {
+			  type: "scatter",
+			  mode: "lines",
+			  name: 'Load-Duration',
+			  x: percentiles,
+			  y: load_duration_data,
+			  line: {color: '#0DA9FF'}
+			}
+			
+			var ld_layout = {
+			  height: 500,
+			  title: {
+				text: 'Substation Load-Duration Curve (Substation: ' + subnum + ')'
+			  },
+			  xaxis: {
+				title: {text: 'Percentile'},
+				automargin: true,
+			  },
+			  yaxis: { 
+				title:  {text: 'Apparent Load (VA)'}, 
+				automargin: true, 
+			  },
+			};
+
+			//Draw graph
+			Plotly.newPlot('load-duration', [load_duration], ld_layout, {scrollZoom: false});
+			
 		};
 		
 		if (subnum == null || feeder == null)
@@ -147,6 +215,7 @@
 		else
 		{
 			document.getElementById('graph').innerHTML = ""
+			document.getElementById('load-duration').innerHTML = ""
 			//Trigger graph draw
 			draw_graph();
 		}
