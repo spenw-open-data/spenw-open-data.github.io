@@ -174,18 +174,28 @@
 			
 			var percentiles = [10,25,50,75,90];
 			var apparent_power_data = unpack(data, 'apparent_power');
-			var load_duration_data = [percentile(apparent_power_data,10),percentile(apparent_power_data,25),percentile(apparent_power_data,50),percentile(apparent_power_data,75),percentile(apparent_power_data,90)];
+			var real_power_data = unpack(data, 'real_power');
+			var load_duration_va = [percentile(apparent_power_data,10),percentile(apparent_power_data,25),percentile(apparent_power_data,50),percentile(apparent_power_data,75),percentile(apparent_power_data,90)];
+			var load_duration_w = [percentile(real_power_data,10),percentile(real_power_data,25),percentile(real_power_data,50),percentile(real_power_data,75),percentile(real_power_data,90)];
 			
 			//Set download link
 			document.getElementById('ld_downloadLink').onclick = function() {downloadString(toCSV(percentiles,load_duration_data), 'text/csv', subnum + '-loadduration.csv');};
 			
-			var load_duration = {
+			var load_duration_line_va = {
 			  type: "scatter",
 			  mode: "lines",
 			  name: 'Load-Duration',
 			  x: percentiles,
-			  y: load_duration_data,
-			  line: {color: '#0DA9FF'}
+			  y: load_duration_va,
+			  line: {color: '#00A443'}
+			}
+			var load_duration_line_w = {
+			  type: "scatter",
+			  mode: "lines",
+			  name: 'Load-Duration',
+			  x: percentiles,
+			  y: load_duration_w,
+			  line: {color: '#FF9C1A'}
 			}
 			
 			var ld_layout = {
@@ -198,13 +208,13 @@
 				automargin: true,
 			  },
 			  yaxis: { 
-				title:  {text: 'Apparent Load (VA)'}, 
+				title:  {text: 'Apparent Load (VA)/Real Load (W)'}, 
 				automargin: true, 
 			  },
 			};
 
 			//Draw graph
-			Plotly.newPlot('load-duration', [load_duration], ld_layout, {scrollZoom: false});
+			Plotly.newPlot('load-duration', [load_duration_line_va, load_duration_line_w], ld_layout, {scrollZoom: false});
 			
 		};
 		
