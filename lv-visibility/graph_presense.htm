@@ -5,6 +5,13 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 	<style>
+		@font-face {
+          font-family: iberpangea;
+          src: url(IberPangea-Light.woff2);
+        }
+		p, ul {
+            font-family: Arial, sans-serif;
+        }
 		a.button, input.button {
                   background-color: #00a443;
                   color: white;
@@ -12,6 +19,7 @@
                   text-align: center;
                   text-decoration: none;
                   display: inline-block;
+				  font-family: iberpangea, sans-serif;
                 }
 	</style>
 	<title></title>
@@ -161,7 +169,7 @@
 			var layout = {
 			  height: 500,
 			  title: {
-				text: 'Substation Loading (Substation: ' + subnum + ')'
+				text: 'Substation Loading (Substation: ' + subnum + ')', font: { family: 'iberpangea,  sans-serif' }
 			  },
 			  yaxis: {
 				fixedrange: true,
@@ -201,14 +209,14 @@
 			var ld_layout = {
 			  height: 500,
 			  title: {
-				text: 'Substation Load-Duration Curve (Substation: ' + subnum + ')'
+				text: 'Substation Load-Duration Curve (Substation: ' + subnum + ')', font: { family: 'iberpangea,  sans-serif' }
 			  },
 			  xaxis: {
-				title: {text: 'Percentile'},
+				title: {text: 'Percentile', font: { family: 'iberpangea,  sans-serif' }},
 				automargin: true,
 			  },
 			  yaxis: { 
-				title:  {text: 'Apparent Load (VA)/Real Load (W)'}, 
+				title:  {text: 'Apparent Load (VA)/Real Load (W)', font: { family: 'iberpangea,  sans-serif' }}, 
 				automargin: true, 
 			  },
 			};
